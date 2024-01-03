@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "*.h": "c",
+    "*.tcc": "cpp",
+    "chrono": "cpp",
+    "string_view": "cpp",
+    "random": "cpp",
+    "istream": "cpp",
+    "limits": "cpp",
+    "numeric": "cpp",
+    "ratio": "cpp",
+    "bit": "cpp"
+  }
+}
