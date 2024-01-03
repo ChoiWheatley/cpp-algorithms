@@ -5,8 +5,14 @@
 ## File structure
 
 - `platform/`: 알고리즘 플랫폼
-    - `build/`: cmake -S . -B build 하면 바이너리와 그 부산물이 생성되는 디렉토리
+    - `build/`: 바이너리와 그 부산물이 저장되는 디렉토리
     - `useful/`: 자주 쓰는 함수나 매크로 모음
     - `**/main.cc`: main함수가 들어있는 cpp 파일 -> `build/bin/{dir}_app.out` 형식의 바이너리로 컴파일됨
     - `**/test.cc`: Google Test 코드가 들어있는 cpp 파일 -> `build/bin/{dir}_tests.out` 형식의 바이너리로 컴파일됨
 
+## How to build?
+
+```shell
+cd {{platform}}
+cmake -S . -B build
+```
