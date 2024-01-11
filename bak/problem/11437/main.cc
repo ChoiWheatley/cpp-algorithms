@@ -17,7 +17,7 @@
 
 using namespace std;
 
-constexpr size_t MAX_N = 50'000;
+constexpr size_t MAX_N = 50'001;
 constexpr size_t LOG = 16; // ceil of log(MAX_N, 2)
 
 static int gUp[MAX_N][LOG] = {0}; // up[v][j] = 2^j-th ancestor of v
