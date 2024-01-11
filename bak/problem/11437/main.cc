@@ -18,9 +18,9 @@
 using namespace std;
 
 constexpr size_t MAX_N = 50'000;
-constexpr size_t LOG = 13; // ceil of log(MAX_N, 2)
+constexpr size_t LOG = 16; // ceil of log(MAX_N, 2)
 
-static int gUp[MAX_N][LOG] = {1}; // up[v][j] = 2^j-th ancestor of v
+static int gUp[MAX_N][LOG] = {0}; // up[v][j] = 2^j-th ancestor of v
 static int gDepth[MAX_N] = {0}; // [i] 노드의 트리상에서의 깊이. 루트는 0
 static bool gVisited[MAX_N] = {false};
 static map<int, vector<int>> gAdjlist;
@@ -83,12 +83,7 @@ static int lca(int a, int b) {
 int main(int argc, char const *argv[]) {
     cin.sync_with_stdio(false);
     cin.tie(nullptr);
-
-    for (size_t i = 0; i < MAX_N; ++i) {
-        for (size_t j = 0; j < LOG; ++j) {
-            gUp[i][j] = 1; // root is 1
-        }
-    }
+    cout.tie(nullptr);
 
     size_t n;
     cin >> n;
