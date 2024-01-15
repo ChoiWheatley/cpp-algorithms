@@ -1,36 +1,76 @@
-cmake_minimum_required(VERSION 3.16)
-project(programmers VERSION 0.0.1)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_BUILD_TYPE DEBUG)
+cmake_minimum_required(VERSION 3.16) # 요구 CMake 최소 버전
+project("programmers") # 프로젝트 이름 및 버전
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_BUILD_TYPE DEBUG) # 빌드 config 및 기타등등 옵션
+
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(CMAKE_EXECUTABLE_SUFFIX .out)
+set(CMAKE_BINARY_DIR bin)
 
-set(TEST_TARGET
-  ${CMAKE_PROJECT_NAME})
+set(SRC_TARGET ${CMAKE_PROJECT_NAME})
+set(LIB_TARGET lib${CMAKE_PROJECT_NAME})
+set(MY_TEST_TARGET MY_TEST)
 
+# 공통 컴파일 옵션
 add_compile_options(-Wall)
 
+include_directories(useful)
+
+# Googlt Test
+# declare a dependency on GoogleTest which is downloaded from github
+# FetchContent : https://cmake.org/cmake/help/latest/module/FetchContent.html
 include(FetchContent)
 FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG release-1.12.1
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.12.1
 )
 FetchContent_MakeAvailable(googletest)
 
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "main.cc")
+file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS "tests.cc")
+
+# ################################################
+# compile source files
+# ################################################
+message("@@@@SOURCE_FILES:")
+message("${SOURCE_FILES}")
+message("@@@@CMAKE_BINARY_DIR : ${CMAKE_BINARY_DIR}")
+
+foreach(SOURCE_PATH ${SOURCE_FILES})
+    get_filename_component(EXEC_TARGET ${SOURCE_PATH} DIRECTORY)
+    get_filename_component(EXEC_TARGET ${EXEC_TARGET} NAME)
+    set(EXEC_TARGET ${EXEC_TARGET}_app)
+    message("@@@@EXEC_TARGET: ${EXEC_TARGET}")
+
+    add_executable(${EXEC_TARGET} ${SOURCE_PATH})
+    set_target_properties(${EXEC_TARGET}
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+endforeach()
+
+# ################################################
+# compile test files
+# ################################################
+message("@@@@ TEST_FILES: ${TEST_FILES}")
+
 enable_testing()
 
-add_executable(${TEST_TARGET}
-  "최소직사각형.cpp"
-  "같은 숫자는 싫어.cpp"
-  "성격 유형 검사.cpp"
-  "신고결과받기.cpp"
-  "신고결과받기.re.cpp"
-  "로또의 최고 순위와 최저 순위.cpp"
-)
+foreach(TEST_PATH ${TEST_FILES})
+    get_filename_component(TEST_TARGET ${TEST_PATH} DIRECTORY)
+    get_filename_component(TEST_TARGET ${TEST_TARGET} NAME)
 
-target_link_libraries(${TEST_TARGET}
-  PUBLIC GTest::gtest_main
-)
-include(GoogleTest)
-gtest_discover_tests(${TEST_TARGET})
+    set(TEST_TARGET ${TEST_TARGET}_tests)
+    message("@@@@ TEST_TARGET : ${TEST_TARGET}")
+
+    add_executable(${TEST_TARGET} ${TEST_PATH})
+    set_target_properties(${TEST_TARGET}
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+    )
+    target_link_libraries(${TEST_TARGET} PUBLIC GTest::gtest_main)
+    include(GoogleTest)
+    gtest_discover_tests(${TEST_TARGET})
+endforeach()
