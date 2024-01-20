@@ -28,3 +28,8 @@ class Solution {
         return result;
     }
 };
+
+int main(int argc, char const *argv[]) {
+    /* code */
+    return 0;
+}

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <functional>
 #include <iterator>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -32,3 +33,8 @@ class Solution {
         return ret;
     }
 };
+
+int main(int argc, char const *argv[]) {
+    /* code */
+    return 0;
+}
