@@ -1,3 +1,10 @@
 {
-    "cmake.sourceDirectory": "/home/chltm/workspace/cpp-algorithms/leet"
+    "cmake.sourceDirectory": "/home/chltm/workspace/cpp-algorithms/leet",
+    "C_Cpp.default.compilerPath": "/usr/bin/clang++",
+    "files.associations": {
+        "*.excalidraw": "json",
+        "*.excalidrawlib": "json",
+        "*.h": "c",
+        "vector": "cpp"
+    }
 }
